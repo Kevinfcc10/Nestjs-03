@@ -1,9 +1,32 @@
-import { Get, Controller } from '@nestjs/common';
-
+import {Get, Controller, Req, Res} from '@nestjs/common';
+const fs = require("fs");
 @Controller()
 export class AppController {
   @Get()
-  root(): string {
-    return 'Hola Mundo';
+  root(@Req() request, @Res() response) {
+    console.log("1 Inicio");
+    let contenidoHtml = '';
+    console.log("2 contenidoHtml", contenidoHtml);
+    fs.readFile(__dirname + '/html/index.html',
+        'utf8', (error, contenidoDelArchivo) => {
+          console.log("3 Respondio");
+          const nombre='Kevin';
+          if(error){
+            console.log('4 Error', error);
+            console.log('5 contenidoHtml',contenidoHtml);
+            console.log("6 Termino");
+            return response.send('Error');
+
+          }
+          else{
+            contenidoHtml=contenidoDelArchivo;
+            contenidoHtml = contenidoHtml.replace('{{nombre}}', nombre);
+            console.log('4 contenidoHtml',contenidoHtml);
+            console.log('5 contenidoHtml',contenidoHtml);
+            console.log("6 Termino");
+            return response.send(contenidoHtml);
+          }
+        });
+    return contenidoHtml;
   }
 }

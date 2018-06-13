@@ -9,6 +9,8 @@ import {LogMiddleware} from "./log.middleware";
 import { TypeOrmModule } from '@nestjs/typeorm';
 import {UsuarioEntity} from "./usuario/usuario.entity";
 import {FotoEntity} from "./fotos/foto.entity";
+import {JwtService} from "./servicios/jwt.service";
+import {AuthController} from "./auth/auth.controller";
 @Module({
   imports: [TypeOrmModule.forRoot({
       type: 'mysql',
@@ -23,8 +25,8 @@ import {FotoEntity} from "./fotos/foto.entity";
   }),
   TypeOrmModule.forFeature([UsuarioEntity, FotoEntity])
   ],
-  controllers: [AppController, UsuarioController, ParametrosController],
-  providers: [AppService, UsuarioService],
+  controllers: [AppController, UsuarioController, ParametrosController, AuthController],
+  providers: [AppService, UsuarioService, JwtService],
 })
 export class AppModule implements NestModule {
     nombreDeLaAplicacion = 'EPN';
